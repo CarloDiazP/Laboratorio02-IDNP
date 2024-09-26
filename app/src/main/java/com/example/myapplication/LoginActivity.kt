@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityMainBinding
 
@@ -23,12 +24,12 @@ class LoginActivity : AppCompatActivity() {
         btnLogin.setOnClickListener {
             val userName = binding.userName.text.toString()
             val password = binding.password.text.toString()
-            if (userName =="admin" && password == "admin"){
-                Toast.makeText(getApplicationContext(),"Bienvenido a mi app", Toast.LENGTH_SHORT).show()
-                Log.d("Login successful", "Bienvenido a mi app")
+            if (userExists(userName, password)){
+                val intent = Intent(applicationContext, HomeActivity::class.java)
+                startActivity(intent)
             }else {
-                Toast.makeText(getApplicationContext(),"Error en la autenticacion", Toast.LENGTH_SHORT).show()
-                Log.d("Login failed", "Error en la autenticacion")
+                Toast.makeText(getApplicationContext(),"Cuenta no encontrada", Toast.LENGTH_SHORT).show()
+                Log.d("Login failed", "Cuenta no encontrada")
             }
         }
 
@@ -37,5 +38,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+    fun userExists(userName:String, password:String): Boolean {
+        // TODO: leer cuenta.txt para ver si esta registrado
+        return true
     }
 }
