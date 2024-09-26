@@ -34,21 +34,15 @@ class AccountActivity : AppCompatActivity() {
             val phone = binding.edtPhone.text.toString()
             val username = binding.edtUsername2.text.toString()
             val password = binding.edtPassword2.text.toString()
-
-            val info = "Nombre: $firstname\nApellidos: $lastname\nCorreo: $email\nTelefono: $phone\nUsername: $username\nPassword: $password"
-            val accountEntity = AccountEntity(_firstName = firstname, _lastName = lastname, _email = email, _phone = phone, _username = username, _password = password )
-
+            val accountEntity = AccountEntity(firstName = firstname, lastName = lastname, email = email, phone = phone, username = username, password = password )
             gson = Gson()
             val accountJson = gson.toJson(accountEntity)
-
             data = Intent()
 
             data.putExtra("ACCOUNT_RECORD", accountJson )
             setResult(100, data )
             finish()
 
-            //Toast.makeText(getApplicationContext(),"Cuenta registrada", Toast.LENGTH_SHORT).show()
-            //Log.d("Register", info)
         }
         btnCancel.setOnClickListener {
             setResult(200)

@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.databinding.ActivityHomeBinding
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.gson.Gson
 
 class HomeActivity : AppCompatActivity() {
 
@@ -18,7 +19,19 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val dataRecorded = intent.getBundleExtra("ACCOUNT")
-        Log.d("aea", dataRecorded.toString())
+        val dataRecorded = intent.getStringExtra("ACCOUNT")
+        Log.d("HomeActivity", "Data recorded: $dataRecorded")
+        if (dataRecorded != null) {
+            val gson = Gson()
+            val account = gson.fromJson(dataRecorded, AccountEntity::class.java)
+
+            // Mostrar los datos del usuario en el log
+            Log.d("HomeActivity", "Usuario logueado: ${account.username}, Nombre: ${account.firstName}")
+
+            // Mostrar estos datos en el TextView con ID textView2
+            binding.textView2.text = "Bienvenido, ${account.firstName} ${account.lastName}"
+        } else {
+            Log.d("HomeActivity", "No se recibieron datos del usuario")
+        }
     }
 }
