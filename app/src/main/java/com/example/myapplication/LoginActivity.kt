@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -16,6 +17,9 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val btnLogin = binding.btnLogin
+        val btnAddAccount = binding.btnAddAccount
+
+
         btnLogin.setOnClickListener {
             val userName = binding.userName.text.toString()
             val password = binding.password.text.toString()
@@ -26,6 +30,11 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(getApplicationContext(),"Error en la autenticacion", Toast.LENGTH_SHORT).show()
                 Log.d("Login failed", "Error en la autenticacion")
             }
+        }
+
+        btnAddAccount.setOnClickListener {
+            val intent = Intent(applicationContext, AccountActivity::class.java)
+            startActivity(intent)
         }
 
     }
