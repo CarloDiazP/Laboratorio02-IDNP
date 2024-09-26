@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,10 +10,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.databinding.ActivityAccountBinding
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.gson.Gson
 
 class AccountActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAccountBinding
+    lateinit var gson : Gson
+    private lateinit var data: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +36,23 @@ class AccountActivity : AppCompatActivity() {
             val password = binding.edtPassword2.text.toString()
 
             val info = "Nombre: $firstname\nApellidos: $lastname\nCorreo: $email\nTelefono: $phone\nUsername: $username\nPassword: $password"
+            val accountEntity = AccountEntity(_firstName = firstname, _lastName = lastname, _email = email, _phone = phone, _username = username, _password = password )
 
-            Toast.makeText(getApplicationContext(),"Cuenta registrada", Toast.LENGTH_SHORT).show()
-            Log.d("Register", info)
+            gson = Gson()
+            val accountJson = gson.toJson(accountEntity)
+
+            data = Intent()
+
+            data.putExtra("ACCOUNT_RECORD", accountJson )
+            setResult(100, data )
+            finish()
+
+            //Toast.makeText(getApplicationContext(),"Cuenta registrada", Toast.LENGTH_SHORT).show()
+            //Log.d("Register", info)
+        }
+        btnCancel.setOnClickListener {
+            setResult(200)
+            finish()
         }
     }
 }
